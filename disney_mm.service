@@ -1,0 +1,17 @@
+[Unit]
+Description=Disney Mattermost Bot
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/disney_mm/venv/bin/disney_mm
+TimeoutStartSec=3600
+Restart=always
+RestartSec=10
+WorkingDirectory=/opt/disney_mm
+User=mattermost
+Group=mattermost
+LimitNOFILE=49152
+
+[Install]
+WantedBy=multi-user.target
