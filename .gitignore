@@ -1,2 +1,3 @@
 venv
 disney_mm.ini
+*/__pycache__/*
