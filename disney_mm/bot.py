@@ -54,11 +54,14 @@ class DisneyPlugin(Plugin):
             SSL_VERIFY=_config.ssl_verify
         )
 
-    @listen_to("how long", needs_mention=True)
-    async def how_long(self, message: Message):
-        diff = self._settings.trip_start_date - date.today()
-        human_diff = humanize.precisedelta(diff)
-        self.driver.reply_to(message, f"{human_diff}")
+    @listen_to("[Hh]ow long( until .*){0,1}", needs_mention=True)
+    async def how_long(self, message: Message, until: str):
+        if not until or until.endswith(" until we arrive"):
+            diff = self._settings.trip_start_date - date.today()
+            human_diff = humanize.precisedelta(diff)
+            self.driver.reply_to(message, f"{human_diff}")
+        else:
+            self.driver.reply_to(message, "I don't know, ask @mama")
 
     @listen_to("^(?:[Ff]ood|[Dd]ining|[Rr]estaurants) (?:in|at) (.*)", needs_mention=True)
     async def restaurant(self, message: Message, location: str):
